@@ -17,6 +17,7 @@ export default function AccountCard({ user }: { user: User }) {
   const { setUserInformation, updateUser, signout } = useAuth();
 
   const onSubmit = async (data: FormData) => {
+    // @ts-ignore
     await setUserInformation({ ...user, ...data });
     await updateUser();
   };

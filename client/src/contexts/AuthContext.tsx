@@ -13,7 +13,7 @@ interface AuthContextI extends Context<{}> {
   user: User;
   isLoading: boolean;
   error: string;
-  setUserInformation: (user: any, delivery: any) => Promise<void>;
+  setUserInformation: (user?: any, delivery?: any) => Promise<void>;
   updateUser: () => Promise<void>;
   signout: () => Promise<void>;
 }
@@ -139,52 +139,55 @@ export function AuthProvider({ children }: { children: JSX.Element }) {
   };
 
   async function setUserInformation(
-    data: {
+    data?: {
       name: string;
       email: string;
     },
     address?: Address
   ) {
-    data.email = data.email.toLowerCase().trim();
-    const addressData: any = address;
-    addressData.userId = user?.id;
-    const val = await fetchWrapper(`/users/${user?.id}`, {
-      method: "PATCH",
-      data,
-      headers: {
-        Authorization:
-          "Bearer " +
-          document.cookie
-            .split(";")
-            .filter((val) => val.startsWith("token="))[0]
-            .split("=")[1],
-        "Content-Type": "application/json",
-      },
-      errors: {
-        401: "Invalid token.",
-        500: "Something went wrong while updating your profile. Please try again later.",
-      },
-    });
-    const val2 = await fetchWrapper(`/users/address`, {
-      method: "POST",
-      data: addressData,
-      headers: {
-        Authorization:
-          "Bearer " +
-          document.cookie
-            .split(";")
-            .filter((val) => val.startsWith("token="))[0]
-            .split("=")[1],
-        "Content-Type": "application/json",
-      },
-      errors: {
-        401: "Invalid token.",
-        500: "Something went wrong while updating your profile. Please try again later.",
-      },
-    });
-
-    setUser(val.user);
-    navigate("/signin");
+    let val, val2;
+    if (data) {
+      data.email = data.email.toLowerCase().trim();
+      val = await fetchWrapper(`/users/${user?.id}`, {
+        method: "PATCH",
+        data,
+        headers: {
+          Authorization:
+            "Bearer " +
+            document.cookie
+              .split(";")
+              .filter((val) => val.startsWith("token="))[0]
+              .split("=")[1],
+          "Content-Type": "application/json",
+        },
+        errors: {
+          401: "Invalid token.",
+          500: "Something went wrong while updating your profile. Please try again later.",
+        },
+      });
+    }
+    if (address) {
+      const addressData: any = address;
+      addressData.userId = user?.id;
+      console.log(addressData.userId);
+      val2 = await fetchWrapper(`/users/address`, {
+        method: "POST",
+        data: addressData,
+        headers: {
+          Authorization:
+            "Bearer " +
+            document.cookie
+              .split(";")
+              .filter((val) => val.startsWith("token="))[0]
+              .split("=")[1],
+          "Content-Type": "application/json",
+        },
+        errors: {
+          401: "Invalid token.",
+          500: "Something went wrong while updating your profile. Please try again later.",
+        },
+      });
+    }
   }
 
   async function signin(data: { email: string; password: string }) {
@@ -234,7 +237,7 @@ export function AuthProvider({ children }: { children: JSX.Element }) {
         "Content-Type": "application/json",
       },
     });
-    return res.user;
+    return { ...res.user, address: res.address[res.address.length - 1] };
   }
 
   async function updateUser() {

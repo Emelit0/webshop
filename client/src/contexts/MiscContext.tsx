@@ -31,6 +31,8 @@ export type Product = {
   file?: File;
   category: string;
   imagesPath?: string[];
+  ratings?: number[];
+  ratingsAvg?: number;
 };
 
 const MiscContext = createContext({}) as MiscContextI;

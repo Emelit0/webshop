@@ -1,12 +1,24 @@
+import { useLocation, useNavigate } from "react-router-dom";
 import ProductPreview from "../cards/Product";
 import { useMisc } from "../contexts/MiscContext";
 
 export default function SearchResults({ data, setPage, page }: any) {
-  const { isSm } = useMisc();
+  const { isSm, filtersOpen } = useMisc();
+
+  function increment() {
+    if (page != 1) setPage((prev: any) => prev - 1);
+  }
+
+  function decrement() {
+    if (data.length > 0) setPage((prev: any) => prev + 1);
+  }
+
   return (
     <div
       className={
-        "m-10 ml-0 mt-0 flex w-full flex-col gap-2" + (isSm ? "" : " mr-40")
+        "m-10 mt-0 flex w-full flex-col gap-2 transition-all duration-200" +
+        (isSm ? " mr-0 items-center" : " mr-40") +
+        (filtersOpen ? " ml-[20rem]" : !isSm ? " ml-[5rem]" : " ml-0")
       }
     >
       {(Array.isArray(data) &&
@@ -18,29 +30,27 @@ export default function SearchResults({ data, setPage, page }: any) {
             type="search-page"
           />
         ))) || (
-        <div
-          className={`
-          relative left-0 right-0 mx-auto flex w-[40rem] max-w-full flex-col items-center justify-center gap-6 
-          rounded-3xl border-[.5px] border-black bg-neutral-200 ${
-            isSm ? "p-6" : "p-12"
-          }
-          shadow-[0_0_5px_1px_#00000050] transition-all duration-200 
-          hover:shadow-[0_0_8px_2px_#00000070] 
-          dark:border-white dark:bg-neutral-900 dark:shadow-[0_0_5px_1px_#ffffff80] 
-          dark:hover:shadow-[0_0_10px_2px_#ffffff90]
-        `}
-        >
-          <h1 className="text-xl">
-            There are no items matching your search...
-          </h1>
+        <div className="flex h-fit w-[30rem] max-w-full gap-2">
+          <div
+            className={`
+      relative flex w-[40rem] max-w-full bg-neutral-200
+      p-8 shadow-[3px_3px_10px_1px_#00000060] transition-all 
+      duration-200 hover:shadow-[0_0_12px_2px_#00000060] 
+      hover:brightness-105 dark:bg-neutral-900 dark:hover:brightness-110
+      ${isSm ? "rounded-xl" : "rounded-2xl"}
+      `}
+          >
+            <h1 className="text-center text-lg">
+              There are no items matching your search...
+            </h1>
+          </div>
         </div>
       )}
-      <div className="mb-20 mt-4 flex flex-row items-center justify-center">
-        {/* updating page number for pagination */}
+      <div className="mb-20 mt-4 flex w-[30rem] max-w-full flex-row items-center justify-center">
         <div className="group relative flex w-fit cursor-pointer items-center justify-center">
           <div className="pointer-events-none absolute left-0 right-0 bottom-0 top-0 m-auto aspect-square w-14 rounded-full bg-black opacity-20 transition-all duration-200 group-hover:opacity-30 dark:bg-white" />
           <button
-            onClick={() => page != 1 && setPage((prev: any) => prev - 1)}
+            onClick={increment}
             className="aspect-square w-14 font-logo text-3xl"
           >
             {page != 1 && "-"}
@@ -52,7 +62,7 @@ export default function SearchResults({ data, setPage, page }: any) {
         <div className="group relative flex w-fit cursor-pointer items-center justify-center">
           <div className="pointer-events-none absolute left-0 right-0 bottom-0 top-0 m-auto aspect-square w-14 rounded-full bg-black opacity-20 transition-all duration-200 group-hover:opacity-30 dark:bg-white" />
           <button
-            onClick={() => data.length > 0 && setPage((prev: any) => prev + 1)}
+            onClick={decrement}
             className="aspect-square w-14 font-logo text-3xl"
           >
             {data.length > 0 && "+"}

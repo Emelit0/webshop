@@ -14,6 +14,7 @@ import Profile from "./pages/Profile";
 import Search from "./pages/Search";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
+import SingleProduct from "./pages/SingleProduct";
 
 function LayoutWithNavbar() {
   return (
@@ -52,6 +53,7 @@ export default function App() {
               path="products"
               element={<ProtectedRoute element={<ProductsPage />} />}
             />
+            <Route path="product/:id" element={<SingleProduct />} />
             <Route
               path="profile"
               element={<ProtectedRoute element={<Profile />} />}

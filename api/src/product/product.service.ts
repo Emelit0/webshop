@@ -110,15 +110,13 @@ export class ProductService {
 
   async getProductWithParams(query: ProductParamsDto) {
     const productParams = query as ProductParamsDto;
-
     const updatedQuery = productParams.q ?? '',
       page = Number(productParams.p ?? 1),
       costLow = Number(productParams.clo ?? 0),
       costHigh = Number(productParams.chi ?? 999999999),
       sortBy = productParams.s ?? 'createdAt',
       order = productParams.o ?? 'asc',
-      // timeSince = productParams.t || 999999999,
-      timeSince = 999999999,
+      timeSince = Number(productParams.t ?? 999999999),
       ratingLow = Number(productParams.rlo ?? 0),
       ratingHigh = Number(productParams.rhi ?? 999999999),
       someTags = productParams.stags
@@ -126,12 +124,51 @@ export class ProductService {
         : undefined,
       allTags = productParams.atags ? productParams.atags.split(',') : [],
       notAnyTags = productParams.ntags ? productParams.ntags.split(',') : [];
-
+    
     try {
       if (updatedQuery === '') {
         let products = await this.prisma.product.findMany({
           skip: page ? page - 1 + (page - 1) * 10 : 1,
           take: 10,
+          where: {
+            AND: [
+              {
+                price: {
+                  gte: costLow,
+                  lte: costHigh,
+                },
+              },
+              {
+                OR: [
+                  {
+                    ratingsAvg: {
+                      gte: ratingLow,
+                      lte: ratingHigh,
+                    }
+                  },
+                  {
+                    ratingsAvg: null
+                  }
+  
+                ],
+              },
+              {
+                createdAt: {
+                  gte: new Date(Number(timeSince)),
+                }
+              },
+              {
+                name: {
+                  contains: updatedQuery,
+                  mode: 'insensitive',
+                },
+                //we could make new query for other params if this one is empty
+              },
+            ],
+          },
+          orderBy: {
+            [sortBy]: order,
+        }
         });
 
         // check if product has been ordered
@@ -213,21 +250,31 @@ export class ProductService {
             skip: page - 1 + (page - 1) * 10,
             take: 10,
             where: {
-              OR: [
+              AND: [
                 {
-                  AND: [
+                  price: {
+                    gte: costLow,
+                    lte: costHigh,
+                  },
+                },
+                {
+                  OR: [
                     {
-                      id: {
-                        in: productIds,
-                      },
+                      ratingsAvg: {
+                        gte: ratingLow,
+                        lte: ratingHigh,
+                      }
                     },
                     {
-                      price: {
-                        gte: costLow,
-                        lte: costHigh,
-                      },
-                    },
+                      ratingsAvg: null
+                    }
+    
                   ],
+                },
+                {
+                  createdAt: {
+                    gte: new Date(Number(timeSince)),
+                  }
                 },
                 {
                   name: {
@@ -237,13 +284,10 @@ export class ProductService {
                   //we could make new query for other params if this one is empty
                 },
               ],
-              // createdAt: {
-              //   gte: new Date(timeSince),
-              // },
             },
-            // orderBy: {
-            //   [sortBy]: order,
-            // },
+            orderBy: {
+              [sortBy]: order,
+          }
           });
 
           // check if product has been ordered

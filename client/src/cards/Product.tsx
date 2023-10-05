@@ -64,7 +64,12 @@ export default function ProductPreview({
       `}
       >
         <div>
-          <h2 className="w-fit font-body text-lg">{name}</h2>
+          <Link
+            className="hover:text-blue-300 hover:underline"
+            to={`/product/${id}`}
+          >
+            <h2 className="w-fit font-body text-lg">{name}</h2>
+          </Link>
           <div className="flex justify-start gap-4">
             <div className="flex flex-col">
               <div className="flex w-32 items-start">
@@ -77,7 +82,7 @@ export default function ProductPreview({
                 </span>
                 <span className={isSm ? "text-sm" : "text-lg"}>{c}</span>
               </div>
-              {type === "checkout" && (
+              {/* {type === "checkout" && (
                 <Form
                   onSubmit={async ({ quantity }) => {
                     changeQuantity(product, Number(quantity));
@@ -92,7 +97,7 @@ export default function ProductPreview({
                   />
                   <button type="submit">Save</button>
                 </Form>
-              )}
+              )} */}
             </div>
             <p className="w-full opacity-50">{description}</p>
           </div>

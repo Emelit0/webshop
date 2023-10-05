@@ -122,7 +122,7 @@ export default function FancyInput({
           <label
             className={`
               pointer-events-none absolute top-1/2 -translate-y-1/2 
-              select-none pl-3 text-base capitalize opacity-60 
+              select-none pl-3 capitalize opacity-60 
               transition-all duration-300 ease-out
               ${
                 labelSmall

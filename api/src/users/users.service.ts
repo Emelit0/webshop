@@ -98,10 +98,15 @@ export class UsersService {
         addressLine2: addressDto.addressLine2,
         city: addressDto.city,
         region: addressDto.region,
-        postalCode: Number(addressDto.postalCode),
+        postalCode: addressDto.postalCode,
         country: addressDto.country,
+        phoneNumber: addressDto.phoneNumber,
+        firstName: addressDto.firstName,
+        lastName: addressDto.lastName,
+        email: addressDto.email
       },
     });
+    console.log(address)
 
     const user = await this.prisma.user.update({
       where: { id: Number(addressDto.userId) },
@@ -114,4 +119,32 @@ export class UsersService {
       },
     });
   }
+  // async updateAddress(addressDto: AddressDto) {
+  //   const address = await this.prisma.address.create({
+  //     data: {
+  //       addressLine1: addressDto.addressLine1,
+  //       addressLine2: addressDto.addressLine2,
+  //       city: addressDto.city,
+  //       region: addressDto.region,
+  //       postalCode: addressDto.postalCode,
+  //       country: addressDto.country,
+  //       phoneNumber: addressDto.phoneNumber,
+  //       firstName: addressDto.firstName,
+  //       lastName: addressDto.lastName,
+  //       email: addressDto.email
+  //     },
+  //   });
+  //   console.log(address)
+
+  //   const user = await this.prisma.user.update({
+  //     where: { id: Number(addressDto.userId) },
+  //     data: {
+  //       address: {
+  //         connect: {
+  //           id: Number(address.id),
+  //         },
+  //       },
+  //     },
+  //   });
+  // }
 }

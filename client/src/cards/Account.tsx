@@ -47,7 +47,9 @@ export default function AccountCard({ user }: { user: User }) {
       <div className="flex gap-16">
         <div className="flex flex-col">
           <UserImage user={user} className="w-44" />
-          <span className="opacity-60">User since {createdAt}</span>
+          <span className={`${isSm ? "text-sm" : "text-base"} opacity-60`}>
+            User since {createdAt}
+          </span>
         </div>
         <Form onSubmit={onSubmit} className="flex flex-col justify-around">
           <Input

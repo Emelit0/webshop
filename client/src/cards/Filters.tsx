@@ -21,23 +21,27 @@ export default function FilterForm({
   }) => Promise<void>;
   session: any;
 }) {
-  const { isSm, filtersOpen } = useMisc();
+  const { isSm, filtersOpen, toggleFilters } = useMisc();
   return (
     <div
       className={`
-    z-10 flex w-[16rem] flex-col items-center 
-    rounded-2xl bg-neutral-200 p-4 
+    z-10 flex ${!isSm ? "w-[17rem]" : "fixed w-full"} absolute flex-col
+    items-center rounded-2xl bg-neutral-200 p-4
     shadow-[3px_3px_10px_1px_#00000060] transition-all
     duration-200 dark:bg-neutral-900
-    ${
-      isSm
-        ? filtersOpen
-          ? "fixed translate-x-0"
-          : "fixed -translate-x-full"
-        : "translate-x-0"
-    }
+    ${filtersOpen ? "translate-x-0" : "-translate-x-full"}
     `}
     >
+      {!isSm && (
+        <span
+          className={`absolute top-0 bottom-0 m-auto h-fit w-fit ${
+            filtersOpen ? "right-1" : "-right-1 translate-x-full"
+          } cursor-pointer rounded-lg p-2 transition-all duration-200 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black`}
+          onClick={toggleFilters}
+        >
+          {filtersOpen ? "Close" : "Filters"}
+        </span>
+      )}
       <h2 className="text-lg font-semibold">Filters</h2>
       <div className="flex justify-between gap-20 p-3">
         <div className="flex gap-2">

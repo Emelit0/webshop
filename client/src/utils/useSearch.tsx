@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 export default function useSearch(cleanQueryString: string, page: number) {
   const query = useQuery({
-    queryKey: ["search", page],
+    queryKey: ["search", page, cleanQueryString],
     queryFn: () => fetchProducts(page, cleanQueryString),
   });
   return query;
@@ -15,17 +16,19 @@ async function fetchProducts(page: number, cleanQueryString: string) {
       `${
         import.meta.env.VITE_API
         //need to update page number on pagination
-      }/product/params?p=${page}${cleanQueryString}`
+      }/product/params?${cleanQueryString}`
     );
+    console.log(url);
     const res = await fetch(url, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
     });
-    console.log(res);
-
-    if (res.json) return await res.json();
+    if (res.ok) {
+      const data = await res.json();
+      return data;
+    }
   } catch (err) {
     console.error(err);
     return [];

@@ -102,17 +102,21 @@ export default function EditProduct() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-8 p-12">
+    <div
+      className={`flex flex-col items-center justify-center ${
+        isSm ? "gap-4 p-4" : "gap-8 p-12"
+      }`}
+    >
       <h2 className={`capitalize ${isSm ? "text-lg" : "text-2xl"}`}>
         {id ? "Edit" : "Create"} product
       </h2>
       <div
         className="
-          flex items-center justify-center gap-6 rounded-3xl border-[.5px] 
-          border-black bg-neutral-200 p-12 transition-all 
-          duration-200 dark:border-white
-          dark:bg-neutral-900 dark:shadow-[-1_0_5px_1px_#ffffff80] 
-          dark:hover:shadow-[0_0_10px_2px_#ffffff90]"
+        flex items-center justify-center gap-6 rounded-3xl border-[.5px] 
+        border-black bg-neutral-200 p-12 transition-all 
+        duration-200 dark:border-white
+        dark:bg-neutral-900 dark:shadow-[-1_0_5px_1px_#ffffff80] 
+        dark:hover:shadow-[0_0_10px_2px_#ffffff90]"
       >
         <Form onSubmit={onSubmit} className="flex flex-col items-center gap-3">
           <div>

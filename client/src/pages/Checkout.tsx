@@ -18,7 +18,7 @@ export default function Checkout() {
             className={"flex w-full items-center " + (isSm ? "flex-col" : "")}
           >
             <div className="m-4 flex w-full max-w-3xl flex-col gap-8">
-              <div className="flex flex-col items-center">
+              <div className={`flex w-full flex-col items-center`}>
                 <h1
                   className={
                     "self-center font-bold " +
@@ -27,18 +27,16 @@ export default function Checkout() {
                 >
                   Review Items
                 </h1>
-                <div>
-                  <div className="flex flex-col gap-3">
-                    {items.map((item: Product) => {
-                      return (
-                        <ProductPreview
-                          product={item}
-                          type="checkout"
-                          key={item.id}
-                        />
-                      );
-                    })}
-                  </div>
+                <div className="flex w-full min-w-[20rem] flex-col items-center justify-center gap-3">
+                  {items.map((item: Product) => {
+                    return (
+                      <ProductPreview
+                        product={item}
+                        type="checkout"
+                        key={item.id}
+                      />
+                    );
+                  })}
                 </div>
               </div>
               <DeliveryForm

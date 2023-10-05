@@ -63,11 +63,15 @@ model ProductTags {
 model Address {
   id           Int    @id @default(autoincrement())
   userId       Int?
+  firstName    String
+  lastName     String
+  email        String
   addressLine1 String
   addressLine2 String
+  phoneNumber  String
   city         String
   region       String
-  postalCode   Int
+  postalCode   String
   country      String
   user         User?  @relation(fields: [userId], references: [id])
 }

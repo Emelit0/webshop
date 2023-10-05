@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import CartIcon from "../assets/CartIcon";
 import Logo from "../assets/Logo";
 import SearchIcon from "../assets/SearchIcon";
@@ -10,6 +10,7 @@ import { toggleTheme } from "../utils/settings";
 
 export default function Navbar() {
   const { isSm, toggleFilters } = useMisc();
+  const location = useLocation();
   const [centerSearchBar, setCenterSearchBar] = useState();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const drawerRef = useRef<HTMLDivElement>(null);
@@ -79,7 +80,6 @@ export default function Navbar() {
           `}
             ref={drawerRef}
           >
-            <span onClick={toggleFilters}>FS</span>
             <input
               className="w-full bg-transparent outline-none"
               type="text"
@@ -131,7 +131,7 @@ export default function Navbar() {
       <div className="flex h-full items-center gap-6">
         {!isLoading && !user && (
           <Link
-            to="/login"
+            to="/signin"
             className="w-14 cursor-pointer hover:text-blue-400 hover:underline"
           >
             Sign In?

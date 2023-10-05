@@ -75,7 +75,9 @@ export default function DeliveryForm({ title, className }: DeliveryFormProps) {
         shadow-[0_0_5px_1px_#00000050] transition-all duration-200 
         hover:shadow-[0_0_8px_2px_#00000070] dark:border-white dark:bg-neutral-900 
         dark:shadow-[0_0_5px_1px_#ffffff80] dark:hover:shadow-[0_0_10px_2px_#ffffff90]
-        ${className || ""} ${isSm ? "rounded-lg p-3" : "rounded-2xl p-12"}`}
+        ${className || ""} ${
+        isSm ? "rounded-lg p-4 py-10" : "rounded-2xl p-12"
+      }`}
     >
       <>
         <h2 className={`font-bold ${isSm ? "text-xl" : "text-2xl"}`}>
@@ -86,7 +88,7 @@ export default function DeliveryForm({ title, className }: DeliveryFormProps) {
           <Form
             onSubmit={onSubmit}
             className={`grid grid-cols-6 grid-rows-[8] gap-1 gap-x-3 ${
-              isSm ? "w-[20rem]" : "w-[30rem]"
+              isSm ? "w-[19rem]" : "w-full max-w-[30rem]"
             }`}
           >
             <Input
@@ -196,24 +198,13 @@ export default function DeliveryForm({ title, className }: DeliveryFormProps) {
 
             <Input
               type="text"
-              name="countryCallingCode"
-              placeholder="Country Code"
-              options={{
-                required: "Please enter a country calling code.",
-              }}
-              initialValue={delivery?.countryCallingCode}
-              placementClassName="row-start-6 col-start-1 col-span-1"
-            />
-
-            <Input
-              type="text"
               name="phoneNumber"
-              placeholder="Phone Number"
+              placeholder="Full Phone Number"
               options={{
                 required: "Please enter a phone number.",
               }}
               initialValue={delivery?.phoneNumber}
-              placementClassName="row-start-6 col-start-2 col-span-5"
+              placementClassName="row-start-6 col-start-1 col-span-6"
             />
 
             <button

@@ -9,7 +9,7 @@ import { toggleTheme } from "../utils/settings";
 
 export default function Sidebar({ sm }: { sm?: boolean }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const { isSm } = useMisc();
+  const { isSm, toggleFilters } = useMisc();
   const [size, setSize] = useState(isSm ? "w-12 h-full" : "w-24");
   useEffect(() => {
     if (isSm) setSize("w-12 h-full");
@@ -32,8 +32,18 @@ export default function Sidebar({ sm }: { sm?: boolean }) {
       >
         {isSm && (
           <button
-            className="w-full rounded-md bg-neutral-300 p-2 font-display font-medium transition-all
-            duration-150 hover:brightness-90 dark:bg-neutral-800 dark:hover:brightness-110
+            className="w-full rounded-md bg-neutral-300 p-2 font-display text-[.85rem] font-medium
+            transition-all duration-150 hover:brightness-90 dark:bg-neutral-800 dark:hover:brightness-110
+            "
+            onClick={toggleFilters}
+          >
+            Filters
+          </button>
+        )}
+        {isSm && (
+          <button
+            className="w-full rounded-md bg-neutral-300 p-2 font-display text-[.85rem] font-medium
+            transition-all duration-150 hover:brightness-90 dark:bg-neutral-800 dark:hover:brightness-110
             "
             onClick={toggleTheme}
           >
@@ -66,7 +76,7 @@ export default function Sidebar({ sm }: { sm?: boolean }) {
           }}
         >
           <UserIcon className={size} />
-          <h3 className={isSm ? "text-base" : "text-xl"}>Profile</h3>
+          <h3 className={isSm ? "text-[.85rem]" : "text-xl"}>Profile</h3>
         </NavLink>
 
         <NavLink
@@ -95,7 +105,7 @@ export default function Sidebar({ sm }: { sm?: boolean }) {
           }}
         >
           <OrdersIcon className={size} />
-          <h3 className={isSm ? "text-base" : "text-xl"}>Orders</h3>
+          <h3 className={isSm ? "text-[.85rem]" : "text-xl"}>Orders</h3>
         </NavLink>
 
         <NavLink
@@ -124,7 +134,7 @@ export default function Sidebar({ sm }: { sm?: boolean }) {
           }}
         >
           <ProductsIcon className={size} />
-          <h3 className={isSm ? "text-base" : "text-xl"}>Products</h3>
+          <h3 className={isSm ? "text-[.85rem]" : "text-xl"}>Products</h3>
         </NavLink>
       </ul>
     </nav>

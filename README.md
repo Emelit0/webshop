@@ -4,7 +4,6 @@
 
 
 
-Solarized dark       |  Solarized Ocean
 :-------------------:|:--------------------:
 ![](docs/image.png)  |  ![](docs/image1.png)
 ___
